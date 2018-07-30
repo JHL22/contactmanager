@@ -33,19 +33,34 @@ class EditContact extends Component {
 
     // Check For Errors
     if (name === '') {
-      this.setState({ errors: { name: 'Name is requried' } });
+      this.setState({ errors: { name: 'Name is required' } });
       return;
     }
 
     if (email === '') {
-      this.setState({ errors: { email: 'Email is requried' } });
+      this.setState({ errors: { email: 'Email is required' } });
       return;
     }
 
     if (phone === '') {
-      this.setState({ errors: { phone: 'Phone is requried' } });
+      this.setState({ errors: { phone: 'Phone is required' } });
       return;
     }
+
+    const updContact = {
+      name,
+      email,
+      phone
+    };
+
+    const { id } = this.props.match.params;
+
+    const res = await axios.put(
+      `https://jsonplaceholder.typicode.com/users/${id}`,
+      updContact
+    );
+
+    dispatch({ type: 'UPDATE_CONTACT', payload: res.data });
 
     // Clear state
     this.setState({
